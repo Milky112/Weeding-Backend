@@ -5,6 +5,7 @@ import (
 
 	"Wedding.com/database"
 	"Wedding.com/models"
+	"go.mongodb.org/mongo-driver/bson"
 
 	"context"
 	"strconv"
@@ -14,6 +15,8 @@ import (
 )
 
 func PostComment(c *fiber.Ctx) error {
+	log.Print("==================== Hit Endpoint Post /api/comment/ ==========================")
+
 	var postData fiber.Map
 
 	if err := c.BodyParser(&postData); err != nil {
@@ -41,4 +44,20 @@ func PostComment(c *fiber.Ctx) error {
 	log.Println(commentPost)
 
 	return c.JSON(postData)
+}
+
+func GetAllData(c *fiber.Ctx) error {
+	log.Print("====================== Hit Endpoint Get /api/data/:user_data =======================")
+
+	client_data := c.Params("user_data")
+	var results []models.PostData
+
+	data, _ := database.DB.Collection(client_data).Find(context.Background(), bson.D{})
+
+	data.All(context.TODO(), &results)
+
+	log.Print("Get All Data")
+	log.Print(results)
+
+	return c.JSON(results)
 }
