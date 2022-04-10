@@ -6,6 +6,8 @@ import (
 	"Wedding.com/database"
 	"Wedding.com/models"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 
 	"context"
 	"strconv"
@@ -54,10 +56,35 @@ func GetAllData(c *fiber.Ctx) error {
 
 	data, _ := database.DB.Collection(client_data).Find(context.Background(), bson.D{})
 
+	count, _ := database.DB.Collection(client_data).CountDocuments(context.Background(), bson.D{})
+
+	groupStage := bson.D{
+		{
+			"$group", bson.D{
+				{"_id", ""},
+				{"attendance", bson.D{{"$sum", "$attendance"}}},
+			},
+		},
+	}
+	opts := options.Aggregate().SetMaxTime(2 * time.Second)
+
+	cursor, err := database.DB.Collection(client_data).Aggregate(context.TODO(), mongo.Pipeline{groupStage}, opts)
+	var attendanceCount []bson.M
+
+	if err = cursor.All(context.TODO(), &attendanceCount); err != nil {
+		log.Fatal(err)
+	}
+	coming_data := attendanceCount[len(attendanceCount)-1]["attendance"]
+
 	data.All(context.TODO(), &results)
 
 	log.Print("Get All Data")
 	log.Print(results)
 
-	return c.JSON(results)
+	return c.JSON(fiber.Map{
+		"attendace_come":      coming_data,
+		"attendance_not_come": int32(count) - coming_data.(int32),
+		"repondense":          count,
+		"comment":             results,
+	})
 }
