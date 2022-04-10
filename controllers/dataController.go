@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"log"
 
 	"Wedding.com/database"
@@ -50,6 +51,7 @@ func PostComment(c *fiber.Ctx) error {
 
 func GetAllData(c *fiber.Ctx) error {
 	log.Print("====================== Hit Endpoint Get /api/data/:user_data =======================")
+	fmt.Print("====================== Hit Endpoint Get /api/data/:user_data =======================")
 
 	client_data := c.Params("user_data")
 	var results []models.PostData
