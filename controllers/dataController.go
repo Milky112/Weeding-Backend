@@ -29,10 +29,12 @@ func PostComment(c *fiber.Ctx) error {
 	client_data := postData["user_data"].(string)
 
 	attendace, _ := strconv.Atoi(postData["attendance"].(string))
+	total_guest, _ := strconv.Atoi(postData["total_guest"].(string))
 	commentPost := models.PostData{
 		Name:       postData["name"].(string),
 		Attendance: attendace,
 		Comment:    postData["wishes"].(string),
+		TotalGuest: total_guest,
 		CreatedAt:  time.Now(),
 	}
 
@@ -65,6 +67,7 @@ func GetAllData(c *fiber.Ctx) error {
 			"$group", bson.D{
 				{"_id", ""},
 				{"attendance", bson.D{{"$sum", "$attendance"}}},
+				{"total_guest", bson.D{{"$sum", "$totalguest"}}},
 			},
 		},
 	}
@@ -77,6 +80,7 @@ func GetAllData(c *fiber.Ctx) error {
 		log.Fatal(err)
 	}
 	coming_data := attendanceCount[len(attendanceCount)-1]["attendance"]
+	total_guest := attendanceCount[len(attendanceCount)-1]["total_guest"]
 
 	data.All(context.TODO(), &results)
 
@@ -88,5 +92,6 @@ func GetAllData(c *fiber.Ctx) error {
 		"attendance_not_come": int32(count) - coming_data.(int32),
 		"repondense":          count,
 		"comment":             results,
+		"total_guest":         total_guest,
 	})
 }
