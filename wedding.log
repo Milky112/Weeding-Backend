@@ -1,0 +1,6 @@
+Common Logger:	2022/04/16 00:13:12 logger.go:19: text to append
+Common Logger:	2022/04/16 00:13:12 logger.go:20: more text to append
+Common Logger:	2022/04/16 00:13:12 main.go:28: Server is Running
+Common Logger:	2022/04/16 00:13:19 dataController.go:56: ====================== Hit Endpoint Get /api/data/:user_data =======================
+Common Logger:	2022/04/16 00:13:19 dataController.go:88: Get All Data
+Common Logger:	2022/04/16 00:13:19 dataController.go:89: [{ansa 1 Happy wed for u 0 2022-04-09 19:23:26.535 +0000 UTC} {budiBinomo 1 Happy wedding 0 2022-04-09 19:24:32.182 +0000 UTC} {andee 0 Happy wedding 0 2022-04-10 10:17:26.488 +0000 UTC} {ahmadSaepul 0 Happy wedding 0 2022-04-10 10:17:38.136 +0000 UTC} {Si Bangke 1 Happy wedding 0 2022-04-10 10:19:33.792 +0000 UTC} {Si Manusia 1 0 Happy wedding 0 2022-04-10 10:19:49.02 +0000 UTC} {Si Manusia 2 0 Happy wedding 0 2022-04-10 10:19:53.436 +0000 UTC} {Si Manusia 3 1 Happy wedding 4 2022-04-15 15:30:51.823 +0000 UTC} {Si Manusia 3 1 Happy wedding 2 2022-04-15 15:30:59.552 +0000 UTC} {Si Manusia 3 1 Happy wedding 5 2022-04-15 15:31:05.498 +0000 UTC}]

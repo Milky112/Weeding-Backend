@@ -5,6 +5,7 @@ import (
 
 	"Wedding.com/database"
 
+	Logger "Wedding.com/log"
 	"Wedding.com/routes"
 
 	"github.com/gofiber/fiber/v2"
@@ -19,12 +20,13 @@ func main() {
 	app := fiber.New()
 	app.Use(cors.New(cors.Config{
 		AllowCredentials: true,
-		AllowOrigins:     "",
+		AllowOrigins:     "*",
 		AllowHeaders:     "Origin, Content-Type, Accept, Accept-Language, Content-Length",
 	}))
 
+	Logger.GenerateLog()
+	Logger.CommonLog.Println("Server is Running")
 	app.Use(logger.New())
-	fmt.Println("Setup Docker Routes")
 
 	routes.Setup(app)
 	app.Get("/", func(c *fiber.Ctx) error {
